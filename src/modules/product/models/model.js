@@ -70,7 +70,19 @@ var ProductSchema = new Schema({
         type: Boolean
     },
     downloads: {
-        type: Array
+        type: [
+            {
+                id: {
+                    type: Number
+                },
+                name: {
+                    type: String
+                },
+                file: {
+                    type: String
+                }
+            }
+        ]
     },
     download_limit: {
         type: Number
@@ -119,7 +131,17 @@ var ProductSchema = new Schema({
         type: String
     },
     dimensions: {
-        type: Object
+        type: {
+            length: {
+                type: String
+            },
+            width: {
+                type: String
+            },
+            height: {
+                type: String
+            }
+        }
     },
     shipping_required: {
         type: Boolean
@@ -158,19 +180,91 @@ var ProductSchema = new Schema({
         type: String
     },
     categories: {
-        type: Array
+        type: [
+            {
+                id: {
+                    type: Number
+                },
+                name: {
+                    type: String
+                },
+                slug: {
+                    type: String
+                }
+            }
+        ]
     },
     tags: {
-        type: Array
+        type: [
+            {
+                id: {
+                    type: Number
+                },
+                name: {
+                    type: String
+                },
+                slug: {
+                    type: String
+                }
+            }
+        ]
     },
     images: {
-        type: Array
+        type: [
+            {
+                id: {
+                    type: Number
+                },
+                src: {
+                    type: String
+                },
+                name: {
+                    type: String
+                },
+                alt: {
+                    type: String
+                }
+            }
+        ]
     },
     attributes: {
-        type: Array
+        type: [
+            {
+                id: {
+                    type: Number
+                },
+                name: {
+                    type: String
+                },
+                position: {
+                    type: Number
+                },
+                visible: {
+                    type: Boolean
+                },
+                variation: {
+                    type: Boolean
+                },
+                options: {
+                    type: Array
+                }
+            }
+        ]
     },
     default_attributes: {
-        type: Array
+        type: [
+            {
+                id: {
+                    type: Number
+                },
+                name: {
+                    type: String
+                },
+                option: {
+                    type: String
+                }
+            }
+        ]
     },
     variations: {
         type: Array
@@ -182,7 +276,16 @@ var ProductSchema = new Schema({
         type: Number
     },
     meta_data: {
-        type: Array
+        type: [
+            {
+                key: {
+                    type: String
+                },
+                value: {
+                    type: String
+                }
+            }
+        ]
     },
 
 

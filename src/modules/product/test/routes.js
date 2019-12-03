@@ -7,7 +7,7 @@ var request = require('supertest'),
     mongoose = require('mongoose'),
     app = require('../../../config/express'),
     Product = mongoose.model('Product');
-    // MetaDataProductSchema = mongoose.model('Product');
+// MetaDataProductSchema = mongoose.model('Product');
 
 var credentials,
     token,
@@ -17,8 +17,8 @@ describe('Product CRUD routes tests', function () {
 
     before(function (done) {
         mockup = {
-            name: "Premium Quality",
-            type: "simple",
+            name: "Ship Your Idea",
+            type: "variable",
             regular_price: "21.99",
             description: "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.",
             short_description: "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
@@ -32,12 +32,52 @@ describe('Product CRUD routes tests', function () {
             ],
             images: [
                 {
-                    src: "http://demo.woothemes.com/woocommerce/wp-content/uploads/sites/56/2013/06/T_2_front.jpg"
+                    src: "http://demo.woothemes.com/woocommerce/wp-content/uploads/sites/56/2013/06/T_4_front.jpg"
                 },
                 {
-                    src: "http://demo.woothemes.com/woocommerce/wp-content/uploads/sites/56/2013/06/T_2_back.jpg"
+                    src: "http://demo.woothemes.com/woocommerce/wp-content/uploads/sites/56/2013/06/T_4_back.jpg"
+                },
+                {
+                    src: "http://demo.woothemes.com/woocommerce/wp-content/uploads/sites/56/2013/06/T_3_front.jpg"
+                },
+                {
+                    src: "http://demo.woothemes.com/woocommerce/wp-content/uploads/sites/56/2013/06/T_3_back.jpg"
+                }
+            ],
+            attributes: [
+                {
+                    id: 6,
+                    position: 0,
+                    visible: true,
+                    variation: true,
+                    options: [
+                        "Black",
+                        "Green"
+                    ]
+                },
+                {
+                    name: "Size",
+                    position: 0,
+                    visible: false,
+                    variation: true,
+                    options: [
+                        "S",
+                        "M"
+                    ]
+                }
+            ],
+            default_attributes: [
+                {
+                    id: 6,
+                    option: "Black"
+                },
+                {
+                    name: "Size",
+                    option: "S"
                 }
             ]
+
+
         };
         credentials = {
             username: 'username',
@@ -66,7 +106,7 @@ describe('Product CRUD routes tests', function () {
                 done();
             });
     });
-    
+
 
     it('should be Product get by id', function (done) {
 
@@ -89,17 +129,39 @@ describe('Product CRUD routes tests', function () {
                             return done(err);
                         }
                         var resp = res.body;
-                        // console.log(resp);
+                        console.log(resp);
                         assert.equal(resp.status, 200);
                         assert.equal(resp.data.name, mockup.name);
                         assert.equal(resp.data.type, mockup.type);
                         assert.equal(resp.data.regular_price, mockup.regular_price);
                         assert.equal(resp.data.description, mockup.description);
                         assert.equal(resp.data.short_description, mockup.short_description);
+
                         assert.equal(resp.data.categories[0].id, mockup.categories[0].id);
                         assert.equal(resp.data.categories[1].id, mockup.categories[1].id);
+
                         assert.equal(resp.data.images[0].src, mockup.images[0].src);
                         assert.equal(resp.data.images[1].src, mockup.images[1].src);
+                        assert.equal(resp.data.images[2].src, mockup.images[2].src);
+                        assert.equal(resp.data.images[3].src, mockup.images[3].src);
+
+                        assert.equal(resp.data.attributes[0].id, mockup.attributes[0].id);
+                        assert.equal(resp.data.attributes[0].position, mockup.attributes[0].position);
+                        assert.equal(resp.data.attributes[0].visible, mockup.attributes[0].visible);
+                        assert.equal(resp.data.attributes[0].variation, mockup.attributes[0].variation);
+                        assert.equal(resp.data.attributes[0].options[0], mockup.attributes[0].options[0]);
+
+                        assert.equal(resp.data.attributes[1].name, mockup.attributes[1].name);
+                        assert.equal(resp.data.attributes[1].position, mockup.attributes[1].position);
+                        assert.equal(resp.data.attributes[1].visible, mockup.attributes[1].visible);
+                        assert.equal(resp.data.attributes[1].variation, mockup.attributes[1].variation);
+                        assert.equal(resp.data.attributes[1].options[1], mockup.attributes[1].options[1]);
+
+                        assert.equal(resp.data.default_attributes[0].id, mockup.default_attributes[0].id);
+                        assert.equal(resp.data.default_attributes[0].option, mockup.default_attributes[0].option);
+
+                        assert.equal(resp.data.default_attributes[1].name, mockup.default_attributes[1].name);
+                        assert.equal(resp.data.default_attributes[1].option, mockup.default_attributes[1].option);
                         done();
                     });
             });
@@ -117,16 +179,40 @@ describe('Product CRUD routes tests', function () {
                     return done(err);
                 }
                 var resp = res.body;
-                // assert.equal(resp.data.name, mockup.name);
+
                 assert.equal(resp.data.name, mockup.name);
                 assert.equal(resp.data.type, mockup.type);
                 assert.equal(resp.data.regular_price, mockup.regular_price);
                 assert.equal(resp.data.description, mockup.description);
                 assert.equal(resp.data.short_description, mockup.short_description);
+
                 assert.equal(resp.data.categories[0].id, mockup.categories[0].id);
                 assert.equal(resp.data.categories[1].id, mockup.categories[1].id);
+
                 assert.equal(resp.data.images[0].src, mockup.images[0].src);
                 assert.equal(resp.data.images[1].src, mockup.images[1].src);
+                assert.equal(resp.data.images[2].src, mockup.images[2].src);
+                assert.equal(resp.data.images[3].src, mockup.images[3].src);
+
+                assert.equal(resp.data.attributes[0].id, mockup.attributes[0].id);
+                assert.equal(resp.data.attributes[0].position, mockup.attributes[0].position);
+                assert.equal(resp.data.attributes[0].visible, mockup.attributes[0].visible);
+                assert.equal(resp.data.attributes[0].variation, mockup.attributes[0].variation);
+                assert.equal(resp.data.attributes[0].options[0], mockup.attributes[0].options[0]);
+
+                assert.equal(resp.data.attributes[1].name, mockup.attributes[1].name);
+                assert.equal(resp.data.attributes[1].position, mockup.attributes[1].position);
+                assert.equal(resp.data.attributes[1].visible, mockup.attributes[1].visible);
+                assert.equal(resp.data.attributes[1].variation, mockup.attributes[1].variation);
+                assert.equal(resp.data.attributes[1].options[1], mockup.attributes[1].options[1]);
+
+                assert.equal(resp.data.default_attributes[0].id, mockup.default_attributes[0].id);
+                assert.equal(resp.data.default_attributes[0].option, mockup.default_attributes[0].option);
+
+                assert.equal(resp.data.default_attributes[1].name, mockup.default_attributes[1].name);
+                assert.equal(resp.data.default_attributes[1].option, mockup.default_attributes[1].option);
+
+
                 done();
             });
     });
@@ -144,9 +230,8 @@ describe('Product CRUD routes tests', function () {
                 }
                 var resp = res.body;
                 var update = {
-                    // name: 'name update'
-                    name: "Premium Quality",
-                    type: "simple",
+                    name: "Ship Your Idea",
+                    type: "variable",
                     regular_price: "21.99",
                     description: "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.",
                     short_description: "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
@@ -160,12 +245,52 @@ describe('Product CRUD routes tests', function () {
                     ],
                     images: [
                         {
-                            src: "http://demo.woothemes.com/woocommerce/wp-content/uploads/sites/56/2013/06/T_2_front.jpg"
+                            src: "http://demo.woothemes.com/woocommerce/wp-content/uploads/sites/56/2013/06/T_4_front.jpg"
                         },
                         {
-                            src: "http://demo.woothemes.com/woocommerce/wp-content/uploads/sites/56/2013/06/T_2_back.jpg"
+                            src: "http://demo.woothemes.com/woocommerce/wp-content/uploads/sites/56/2013/06/T_4_back.jpg"
+                        },
+                        {
+                            src: "http://demo.woothemes.com/woocommerce/wp-content/uploads/sites/56/2013/06/T_3_front.jpg"
+                        },
+                        {
+                            src: "http://demo.woothemes.com/woocommerce/wp-content/uploads/sites/56/2013/06/T_3_back.jpg"
+                        }
+                    ],
+                    attributes: [
+                        {
+                            id: 6,
+                            position: 0,
+                            visible: true,
+                            variation: true,
+                            options: [
+                                "Black",
+                                "Green"
+                            ]
+                        },
+                        {
+                            name: "Size",
+                            position: 0,
+                            visible: false,
+                            variation: true,
+                            options: [
+                                "S",
+                                "M"
+                            ]
+                        }
+                    ],
+                    default_attributes: [
+                        {
+                            id: 6,
+                            option: "Black"
+                        },
+                        {
+                            name: "Size",
+                            option: "S"
                         }
                     ]
+
+
                 }
                 request(app)
                     .put('/api/products/' + resp.data._id)
@@ -177,16 +302,42 @@ describe('Product CRUD routes tests', function () {
                             return done(err);
                         }
                         var resp = res.body;
-                        // assert.equal(resp.data.name, update.name);
+                        console.log(resp);
+
                         assert.equal(resp.data.name, update.name);
                         assert.equal(resp.data.type, update.type);
                         assert.equal(resp.data.regular_price, update.regular_price);
                         assert.equal(resp.data.description, update.description);
                         assert.equal(resp.data.short_description, update.short_description);
+
                         assert.equal(resp.data.categories[0].id, update.categories[0].id);
                         assert.equal(resp.data.categories[1].id, update.categories[1].id);
+
                         assert.equal(resp.data.images[0].src, update.images[0].src);
                         assert.equal(resp.data.images[1].src, update.images[1].src);
+                        assert.equal(resp.data.images[2].src, update.images[2].src);
+                        assert.equal(resp.data.images[3].src, update.images[3].src);
+
+                        assert.equal(resp.data.attributes[0].id, mockup.attributes[0].id);
+                        assert.equal(resp.data.attributes[0].position, mockup.attributes[0].position);
+                        assert.equal(resp.data.attributes[0].visible, mockup.attributes[0].visible);
+                        assert.equal(resp.data.attributes[0].variation, mockup.attributes[0].variation);
+                        assert.equal(resp.data.attributes[0].options[0], mockup.attributes[0].options[0]);
+
+                        assert.equal(resp.data.attributes[1].name, mockup.attributes[1].name);
+                        assert.equal(resp.data.attributes[1].position, mockup.attributes[1].position);
+                        assert.equal(resp.data.attributes[1].visible, mockup.attributes[1].visible);
+                        assert.equal(resp.data.attributes[1].variation, mockup.attributes[1].variation);
+                        assert.equal(resp.data.attributes[1].options[1], mockup.attributes[1].options[1]);
+
+                        assert.equal(resp.data.default_attributes[0].id, update.default_attributes[0].id);
+                        assert.equal(resp.data.default_attributes[0].option, update.default_attributes[0].option);
+
+                        assert.equal(resp.data.default_attributes[1].name, update.default_attributes[1].name);
+                        assert.equal(resp.data.default_attributes[1].option, update.default_attributes[1].option);
+
+
+
                         done();
                     });
             });
