@@ -129,7 +129,7 @@ describe('Product CRUD routes tests', function () {
                             return done(err);
                         }
                         var resp = res.body;
-                        console.log(resp);
+                        // console.log(resp);
                         assert.equal(resp.status, 200);
                         assert.equal(resp.data.name, mockup.name);
                         assert.equal(resp.data.type, mockup.type);
@@ -302,7 +302,7 @@ describe('Product CRUD routes tests', function () {
                             return done(err);
                         }
                         var resp = res.body;
-                        console.log(resp.data.images);
+                        // console.log(resp.data.images);
 
                         assert.equal(resp.data.name, update.name);
                         assert.equal(resp.data.type, update.type);
