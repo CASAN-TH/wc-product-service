@@ -85,6 +85,12 @@ describe('Productattribute CRUD routes tests', function () {
                         assert.equal(resp.data.type, mockup.type);
                         assert.equal(resp.data.order_by, mockup.order_by);
                         assert.equal(resp.data.has_archives, mockup.has_archives);
+
+                        assert.equal(resp.data.attributetems[0].name, mockup.attributetems[0].name);
+                        assert.equal(resp.data.attributetems[0].slug, mockup.attributetems[0].slug);
+                        assert.equal(resp.data.attributetems[0].description, mockup.attributetems[0].description);
+                        assert.equal(resp.data.attributetems[0].menu_order, mockup.attributetems[0].menu_order);
+                        assert.equal(resp.data.attributetems[0].count, mockup.attributetems[0].count);
                         done();
                     });
             });
